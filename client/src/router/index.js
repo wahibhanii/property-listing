@@ -5,6 +5,8 @@ import Dashboard from '@/components/Dashboard'
 import NewProp from '@/components/NewProp'
 import Browse from '@/components/Browse'
 import Home from '@/components/Home'
+import PropDetail from '@/components/PropDetail'
+import EditProp from '@/components/EditProp'
 
 Vue.use(Router)
 
@@ -26,6 +28,14 @@ export default new Router({
         {
           path: 'browse',
           component: Browse,
+        },
+        {
+          path: 'detail/:id',
+          component: PropDetail,
+        },
+        {
+          path: 'edit/:id',
+          component: EditProp,
         },
       ]
     }

@@ -3,6 +3,7 @@ const getters = {
   // allPosts: state=> state.allPosts,
   // allUsers: state=> state.allUsers,
   leftDrawer: state=> state.leftDrawer,
+  allProps: state=> state.allProps,
 }
 
 

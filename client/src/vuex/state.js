@@ -6,7 +6,8 @@ const state = {
   newPropMarker: undefined,
   newPropInfoWindow: undefined,
   newPropLat: null,
-  newPropLng: null
+  newPropLng: null,
+  allProps: null,
 
 }
 

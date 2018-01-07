@@ -6,14 +6,11 @@ const mongoose = require('mongoose');
 class PropsController {
   
   static createProp(req, res) {
-    let newProp = {
-      caption     : req.body.caption,
-      urlToImage  : req.file.imagePropUrl,
-      owner       : req.headers.decoded._id ,
-
-    
-      createdAt   : new Date()
-    }
+    console.log('creating')
+    let newProp = JSON.parse(req.body.detailProp)
+    newProp.owner = req.headers.decoded._id
+    newProp.images = req.files.imagePostUrls
+    console.log(newProp)
     Prop.create(newProp)
     .then(result => {
       console.log(result);
@@ -29,7 +26,6 @@ class PropsController {
   }
 
   static getAllProps(req, res) {
-    console.log('get all Props ===============================================')
     Prop.find({})
     .sort({createdAt: 'desc'})
     .exec()
@@ -43,6 +39,28 @@ class PropsController {
     })
   }
 
+  static getPropById (req, res) {
+    console.log('getting prop by ID .....................', req.params.id)
+    Prop.findOne({_id: req.params.id})
+    .populate('owner')
+    .then(propData => {
+      if(propData !== null) {
+        res.status(200).json({
+          message: 'Property found!',
+          data: propData
+        })
+      } else {
+        res.status(202).json({
+          message: 'Property not found!',
+          data: propData
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send(err)
+    })
+  }
   
 
   static getUserProps(req, res){
@@ -58,6 +76,11 @@ class PropsController {
 
   static editProp(req, res) {
     let data = JSON.parse(req.body.update)
+    // console.log(req.files.imagePostUrls.length,'=========')
+    if (req.files.imagePostUrls && req.files.imagePostUrls.length !== 0) {
+      data.images = req.files.imagePostUrls
+    }
+    
     console.log(data)
     Prop.findOneAndUpdate({_id:req.params.id}, data, {new: true})
     .then(result => {

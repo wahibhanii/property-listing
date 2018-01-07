@@ -10,34 +10,65 @@ const getimagePostUrl = (filename) => {
 }
 
 module.exports = (req, res, next) => {
-  console.log('GCS WITH FILE-----------------')
-  if (!req.file) {
+  if (!req.files) {
     next()
   }
-  console.log('GCS WITH FILE...............')
-  const gcsname = `${Date.now()}-${req.headers.decoded._id}-${req.file.originalname}`
-  const file = bucket.file(`/assets/posts/images/${gcsname}`)
-  const stream = file.createWriteStream({
-    metadata: {
-      contentType: req.file.mimetype
-    }
-  })
+ 
   
-  stream.on('error', (err) => {
-    console.log(err)
-    req.file.cloudStorageError = err
+  arrPromiseUpload = req.files.map(element => {
+    return new Promise ((resolve, reject) => {
+      let gcsname = `${Date.now()}-${req.headers.decoded._id}-${element.originalname}`
+      let file = bucket.file(`/assets/posts/images/${gcsname}`)
+      let stream = file.createWriteStream({
+        metadata: {
+          contentType: element.mimetype
+        }
+      })
+      stream.on('error', (err) => {
+        console.log(err)
+        element.cloudStorageError = err
+        reject(err)
+      })
+      stream.on('finish', () => {
+        element.cloudStorageObject = gcsname
+        file.makePublic()
+        .then(() => {
+          let filename = getimagePostUrl(gcsname)
+          resolve(filename)
+        })
+        .catch(err => {
+          reject(err)
+        })
+      })
+      stream.end(element.buffer)
+    })
+  })
+  Promise.all(arrPromiseUpload)
+  .then(result => {
+    req.files.imagePostUrls = result
+    next()
+  })
+  .catch(err => {
     next(err)
   })
-
-  stream.on('finish', () => {
-    req.file.cloudStorageObject = gcsname
-    file.makePublic()
-      .then(() => {
-        
-        req.file.imagePostUrl = getimagePostUrl(gcsname)
-        next()
-      })
-  })
-
-  stream.end(req.file.buffer)
+  // let gcsname = `${Date.now()}-${req.headers.decoded._id}-${req.file.originalname}`
+  // let file = bucket.file(`/assets/posts/images/${gcsname}`)
+  // let stream = file.createWriteStream({
+  //   metadata: {
+  //     contentType: req.file.mimetype
+  //   }
+  // })
+  // stream.on('error', (err) => {
+  //   console.log(err)
+  //   req.file.cloudStorageError = err
+  //   next(err)
+  // })
+  // stream.on('finish', () => {
+  //   req.file.cloudStorageObject = gcsname
+  //   file.makePublic()
+  //     .then(() => {
+  //       req.file.imagePostUrl = getimagePostUrl(gcsname)
+  //       next()
+  //     })
+  // })
 }

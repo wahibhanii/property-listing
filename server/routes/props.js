@@ -6,10 +6,13 @@ const multer          = require('../middleware/multer')
 const gcs             = require('../middleware/gcs')
 
 // Create Prop
-router.post('/',authentication, multer.single('file'), gcs, PropsController.createProp);
+router.post('/',authentication, multer.array('files',5), gcs, PropsController.createProp);
 
 // Get All Props
 router.get('/', authentication, PropsController.getAllProps);
+
+// Get All Props
+router.get('/:id', authentication, PropsController.getPropById);
 
 // Get User's Prop
 router.get('/user/:id', authentication, PropsController.getUserProps);
@@ -18,7 +21,7 @@ router.get('/user/:id', authentication, PropsController.getUserProps);
 router.delete('/:id', authentication, PropsController.deleteProp)
 
 // Edit Prop
-router.put('/:id', authentication, PropsController.editProp);
+router.put('/:id', authentication, multer.array('files',5), gcs, PropsController.editProp);
 
 
 

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Add New Advertisement</h1>
+    <h1>Edit Advertisement</h1>
       <v-form v-model="valid">
         <v-flex>
           <v-text-field label="Caption" required v-model="caption"></v-text-field>
@@ -75,7 +75,7 @@
         </v-layout>
 
         <v-layout row align-center justify-center>
-          <v-btn color="indigo darken-1" dark @click.native="postAds">Post!</v-btn>
+          <v-btn color="indigo darken-1" dark @click.native="updateAds">Update!</v-btn>
         </v-layout>
       </v-form>
   </v-container>
@@ -111,7 +111,7 @@ export default {
     uploadHandler () {
       this.uploadFiles = this.$refs.propImages.files
     },
-    postAds () {
+    updateAds () {
       let newProp = {
         caption       : this.caption,
         price         : this.price,
@@ -127,17 +127,19 @@ export default {
           lng: this.$store.state.newPropLng 
         },
       };
-      console.log(newProp, this.uploadFiles.length)
 
       const formData = new FormData()
       let strNewProp = JSON.stringify(newProp)
-      for (let i = 0; i<this.uploadFiles.length; i++){
-        formData.append('files', this.uploadFiles[i])
-        console.log('=-=-==-==',this.uploadFiles[i])
+      console.log(this.uploadFiles)
+      if (this.uploadFiles!==null){
+        for (let i = 0; i<this.uploadFiles.length; i++){
+          formData.append('files', this.uploadFiles[i])
+          console.log('=-=-==-==',this.uploadFiles[i])
+        }
       }
-      formData.append('detailProp', strNewProp)
+      formData.append('update', strNewProp)
       this.$axios
-      .post('/props', formData, {
+      .put(`/props/${this.$route.params.id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'token': localStorage.getItem('token')
@@ -145,10 +147,38 @@ export default {
       })
       .then(response =>{
         console.log(response);
-        alert('Shared...!')
+        this.$router.push(`/detail/${this.$route.params.id}`)
       })
       .catch(err => console.log(`Fail: ${err}`))
     }
-  }
+  },
+
+  beforeCreate () {
+    let propId = this.$route.params.id
+    console.log('getting  property data')
+    this.$axios({
+      method: 'get',
+      url: `/props/${propId}`,
+      headers: {token: localStorage.token}
+    })
+    .then(response => {
+      let propData = response.data.data
+      this.caption        = propData.caption
+      this.price          = propData.price
+      this.address        = propData.address
+      this.buildingArea   = propData.buildingArea   
+      this.landArea       = propData.landArea
+      this.bedroomCount   = propData.bedroomCount
+      this.bathroomCount  = propData.bathroomCount
+      this.propType       = propData.type
+      this.propStatus     = propData.status
+      this.$store.state.newPropLat = propData.location.lat
+      this.$store.state.newPropLng = propData.location.lng
+
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
 }
 </script>

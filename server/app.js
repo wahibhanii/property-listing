@@ -18,7 +18,7 @@ app.use(cors())
 // Mongo DB with Atlas Server
 const dbName = 'proplisting';
 const atlasdbURL  = `mongodb://wahibhacktiv8:${process.env.DB_PASSWORD}@wahib-hacktiv8-shard-00-00-uyl7c.mongodb.net:27017,wahib-hacktiv8-shard-00-01-uyl7c.mongodb.net:27017,wahib-hacktiv8-shard-00-02-uyl7c.mongodb.net:27017/${dbName}?ssl=true&replicaSet=wahib-hacktiv8-shard-0&authSource=admin`;
-mongoose.connect(atlasdbURL,{ useMongoClient: true });
+mongoose.connect(atlasdbURL);
 mongoose.Promise = global.Promise;
 
 app.use(logger('dev'));

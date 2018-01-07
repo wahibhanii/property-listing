@@ -10,6 +10,8 @@ class UserController {
     let newUser = {
       email       : req.body.email,
       userName    : req.body.userName,
+      phone       : req.body.phone,
+      address     : req.body.address,
       password    : bcrypt.hashSync(req.body.password, salt),
       profPicUrl  : null,
       following   : [],

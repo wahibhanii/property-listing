@@ -8,6 +8,8 @@ const state = {
   newPropLat: null,
   newPropLng: null,
   allProps: null,
+  isSearch:false,
+  searchField:null,
 
 }
 

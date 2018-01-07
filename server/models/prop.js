@@ -17,6 +17,7 @@ const propSchema = new Schema({
   bathroomCount: Number,
   createdAt   : Date
 });
+propSchema.index({'caption':'text', 'address':'text'})
 
 const Prop = mongoose.model('Prop', propSchema);
 

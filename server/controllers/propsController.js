@@ -10,6 +10,7 @@ class PropsController {
     let newProp = JSON.parse(req.body.detailProp)
     newProp.owner = req.headers.decoded._id
     newProp.images = req.files.imagePostUrls
+    newProp.createdAt = new Date()
     console.log(newProp)
     Prop.create(newProp)
     .then(result => {
@@ -27,6 +28,21 @@ class PropsController {
 
   static getAllProps(req, res) {
     Prop.find({})
+    .sort({createdAt: 'desc'})
+    .exec()
+    .then(result => {
+      console.log(result)
+      res.send(result)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err)
+    })
+  }
+
+  static searchAllProps(req, res) {
+    console.log(req.query.field)
+    Prop.find({$text: {$search: req.query.field}})
     .sort({createdAt: 'desc'})
     .exec()
     .then(result => {

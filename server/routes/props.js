@@ -11,6 +11,9 @@ router.post('/',authentication, multer.array('files',5), gcs, PropsController.cr
 // Get All Props
 router.get('/', authentication, PropsController.getAllProps);
 
+// Search Props
+router.get('/search', authentication, PropsController.searchAllProps);
+
 // Get All Props
 router.get('/:id', authentication, PropsController.getPropById);
 

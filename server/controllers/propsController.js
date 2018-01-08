@@ -1,5 +1,5 @@
 'use strict'
-const Prop    = require('../models/Prop');
+const Prop    = require('../models/prop');
 const User    = require('../models/user');
 const mongoose = require('mongoose');
 

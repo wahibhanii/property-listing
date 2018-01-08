@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
-const baseURL = 'http://localhost:3004'
+const baseURL = 'http://35.185.185.63:3004'
 const mutations = {
  
   setLoginStatus(){

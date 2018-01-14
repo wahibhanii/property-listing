@@ -1,9 +1,10 @@
 <template>
-  <v-layout>
-    <v-flex xs12 sm6 offset-sm3>
+    <v-flex xs10 sm4 md4 class="pa-2">
       <v-card>
-        <v-card-media :src="prop.images[0]" height="400px">
-        </v-card-media>
+        <div class="cardmedia">
+          <img :src="prop.images[0]" class="cardimage">
+        </div>
+        
         <v-card-title primary-title>
           <div>
             <h3 class="headline mb-0">{{prop.caption}}</h3>
@@ -15,7 +16,6 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-  </v-layout>
 </template>
 
 <script>
@@ -41,3 +41,14 @@ export default {
   // }
 }
 </script>
+
+<style scoped>
+.cardmedia {
+  height: 250px;
+}
+img{
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+</style>

@@ -111,7 +111,23 @@ import jwt from 'jsonwebtoken'
 export default {
   data () {
     return {
-      propData: null,
+      propData: {
+        owner: {
+          userName:'',
+          email: '',
+          phone: '',
+        },
+        type: '',
+        status: '',
+        caption: '',
+        buildingArea: 0,
+        landArea: 0,
+        price: 0,
+        location: {
+          lat: 0,
+          lng: 0,
+        }
+      },
       dialog: false,
     }
   },

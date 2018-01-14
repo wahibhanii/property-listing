@@ -1,32 +1,33 @@
 <template>
-  <v-container>
+  <v-container pa-5>
     <h1>Add New Advertisement</h1>
       <v-form v-model="valid">
-        <v-flex>
-          <v-text-field label="Caption" required v-model="caption"></v-text-field>
-        </v-flex>
-        <v-flex >
-          <v-text-field label="Price" required v-model="price"></v-text-field>
-        </v-flex>
+        <v-layout align-center>
+          <v-subheader>Title: </v-subheader>
+          <v-text-field label="enter title here" required v-model="caption"></v-text-field>
+        </v-layout>
+        <v-layout align-center >
+          <v-subheader>Price: </v-subheader>
+          <v-text-field label="enter price here" required v-model="price"></v-text-field>
+        </v-layout>
         <v-layout row align-center>
-          <v-subheader>Type</v-subheader>
+          <v-subheader>Type:</v-subheader>
           <v-select
             v-bind:items="propTypes"
             v-model="propType"
-            label="Select"
+            label="Select Type"
             single-line
           ></v-select>
         </v-layout>
         <v-layout row align-center>
-          <v-subheader>Status</v-subheader>
+          <v-subheader>Status:</v-subheader>
           <v-select
             v-bind:items="propStatuses"
             v-model="propStatus"
-            label="Select"
+            label="Select Status"
             single-line
           ></v-select>
         </v-layout>
-        <v-container>
           <div> <v-subheader> Location: </v-subheader><br/> 
             Latitude: {{this.$store.state.newPropLat}} <br/> 
             Longitude: {{this.$store.state.newPropLng}} 
@@ -34,22 +35,21 @@
           <google-map
             name="example"
           ></google-map>
-          <v-flex >
-            <v-text-field label="Address" required v-model="address" multi-line></v-text-field>
-        </v-flex>
-        </v-container>
-
-        <v-layout row>
-          <v-flex >
-            <v-text-field label="Building Area (sqm)" v-model="buildingArea"></v-text-field>
-          </v-flex>
-          <v-flex >
-            <v-text-field label="Land Area (sqm)" v-model="landArea"></v-text-field>
-          </v-flex>
+        <v-layout align-center pt-4>
+          <v-subheader>Address:  </v-subheader>
+          <v-text-field label="Enter address" required v-model="address" multi-line></v-text-field>
         </v-layout>
+          <v-layout align-center >
+            <v-subheader> Land Area: </v-subheader>
+            <v-text-field label="Building Area (sqm)" v-model="buildingArea"></v-text-field>
+          </v-layout>
+          <v-layout align-center>
+            <v-subheader> Building Area: </v-subheader>
+            <v-text-field label="Land Area (sqm)" v-model="landArea"></v-text-field>
+          </v-layout>
 
         <v-layout row align-center>
-          <v-subheader>Number of Bedrooms</v-subheader>
+          <v-subheader>Number of Bedrooms: </v-subheader>
           <v-select
             v-bind:items="bedrooms"
             v-model="bedroomCount"
@@ -59,7 +59,7 @@
         </v-layout>
         
         <v-layout row align-center>
-          <v-subheader>Number of Bathrooms</v-subheader>
+          <v-subheader>Number of Bathrooms: </v-subheader>
           <v-select
             v-bind:items="bathrooms"
             v-model="bathroomCount"
@@ -70,7 +70,7 @@
         </v-layout>
 
         <v-layout row align-center>
-          <v-subheader>Images</v-subheader>
+          <v-subheader>Images: </v-subheader>
           <input type="file" ref="propImages" class="hide" accept="images/*" name="image" @change="uploadHandler" multiple>
         </v-layout>
 
@@ -144,8 +144,9 @@ export default {
         }
       })
       .then(response =>{
-        console.log(response);
-        alert('Shared...!')
+        console.log('>>>>',response.data.data._id);
+        let newPropId = response.data.data._id
+        this.$router.push(`/detail/${newPropId}`)
       })
       .catch(err => console.log(`Fail: ${err}`))
     }

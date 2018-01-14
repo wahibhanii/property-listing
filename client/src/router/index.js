@@ -19,9 +19,14 @@ export default new Router({
       component: Dashboard,
       children: [
         {
+          path: '',
+          component: Home,
+        },
+        {
           path: 'home',
           component: Home,
-        },{
+        },
+        {
           path: 'newprop',
           component: NewProp,
         },

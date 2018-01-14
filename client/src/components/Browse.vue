@@ -1,13 +1,13 @@
 <template>
-  <v-container>
-    <h1>Browse Property</h1>
-    {{this.$store.state.searchField}} {{this.$store.state.isSearch}}
-    <v-flex>
-      <v-text-field label="Search" required v-model="search" @keyup="updateSearch"></v-text-field>
-    </v-flex>
-    <v-container wrap>
-      <v-layout v-for="prop in allProps" :key="prop._id" >
-        <prop-card :prop="prop" ></prop-card>
+  <v-container fluid >
+    <h1 class="display-2 pa-3">Browse Property</h1>
+    <v-layout pl-3 pr-3>
+      <v-icon large class="pr-4">search</v-icon>
+      <v-text-field label="Search by title or address" v-model="search" @keyup="updateSearch"></v-text-field>
+    </v-layout>
+    <v-container fluid>
+      <v-layout wrap justify-center>
+          <prop-card v-for="prop in allProps" :key="prop._id" :prop="prop"></prop-card>
       </v-layout>
     </v-container>
     

@@ -35,7 +35,7 @@
           <google-map
             name="example"
           ></google-map>
-          <<v-layout align-center pt-4>
+          <v-layout align-center pt-4>
           <v-subheader>Address:  </v-subheader>
           <v-text-field label="Enter address" required v-model="address" multi-line></v-text-field>
         </v-layout>
@@ -130,11 +130,9 @@ export default {
 
       const formData = new FormData()
       let strNewProp = JSON.stringify(newProp)
-      console.log(this.uploadFiles)
       if (this.uploadFiles!==null){
         for (let i = 0; i<this.uploadFiles.length; i++){
           formData.append('files', this.uploadFiles[i])
-          console.log('=-=-==-==',this.uploadFiles[i])
         }
       }
       formData.append('update', strNewProp)
@@ -146,7 +144,6 @@ export default {
         }
       })
       .then(response =>{
-        console.log(response);
         this.$router.push(`/detail/${this.$route.params.id}`)
       })
       .catch(err => console.log(`Fail: ${err}`))
@@ -155,7 +152,6 @@ export default {
 
   beforeCreate () {
     let propId = this.$route.params.id
-    console.log('getting  property data')
     this.$axios({
       method: 'get',
       url: `/props/${propId}`,

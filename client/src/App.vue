@@ -17,7 +17,6 @@ export default {
   },
   created () {
     this.$store.commit('setLoginStatus')
-    console.log(this.$store.state.isLoggedIn)
   }
 }
 </script>

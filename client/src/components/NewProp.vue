@@ -126,14 +126,12 @@ export default {
           lat: this.$store.state.newPropLat,
           lng: this.$store.state.newPropLng 
         },
-      };
-      console.log(newProp, this.uploadFiles.length)
+      }
 
       const formData = new FormData()
       let strNewProp = JSON.stringify(newProp)
       for (let i = 0; i<this.uploadFiles.length; i++){
         formData.append('files', this.uploadFiles[i])
-        console.log('=-=-==-==',this.uploadFiles[i])
       }
       formData.append('detailProp', strNewProp)
       this.$axios
@@ -144,7 +142,6 @@ export default {
         }
       })
       .then(response =>{
-        console.log('>>>>',response.data.data._id);
         let newPropId = response.data.data._id
         this.$router.push(`/detail/${newPropId}`)
       })

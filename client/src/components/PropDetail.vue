@@ -48,7 +48,7 @@
         </v-flex>
         <v-flex>
           <span >Land Area :</span>
-          <span >{{propData.landArea}} m&sup2</span>
+          <span >{{propData.landArea}} m&sup2;</span>
         </v-flex>
       </v-layout>
       <v-divider/>
@@ -143,18 +143,15 @@ export default {
     },
     deleteProp () {
       let propId = this.$route.params.id
-      console.log('getting  property data')
       this.$axios({
         method: 'delete',
         url: `/props/${propId}`,
         headers: {token: localStorage.token}
       })
       .then(response => {
-        console.log(response)
         this.$router.push('/browse')
       })
       .catch(err => {
-        console.log(err)
       })
     }
   },
@@ -167,7 +164,6 @@ export default {
   },
   beforeCreate () {
     let propId = this.$route.params.id
-    console.log('getting  property data')
     this.$axios({
       method: 'get',
       url: `/props/${propId}`,
@@ -177,7 +173,6 @@ export default {
       this.propData = response.data.data
     })
     .catch(err => {
-      console.log(err)
     })
   },
 }

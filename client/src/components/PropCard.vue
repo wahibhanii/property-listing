@@ -31,14 +31,9 @@ export default {
       return `Rp${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")},00`
     },
     gotoDetail(propId){
-      console.log('gotoDetail...',propId)
       this.$router.push(`/detail/${propId}`)
     }
-  },
-
-  // updated () {
-  //   this.$store.commit('getAllProps')
-  // }
+  }
 }
 </script>
 

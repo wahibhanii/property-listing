@@ -36,9 +36,6 @@ export default {
     ]),
   computed : {
     search: {
-      // get(){
-      //   return this.$store.state.leftDrawer
-      //   },
       set(value){ 
         this.$store.state.searchField = value
         if (value && value !== null){

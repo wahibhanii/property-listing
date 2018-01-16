@@ -14,7 +14,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this,'-------------')
     let propCenter = new google.maps.LatLng(this.location.lat,this.location.lng)
     const element = document.getElementById(this.mapName)
     const options = {

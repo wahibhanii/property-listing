@@ -14,7 +14,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this,'-------------')
     const element = document.getElementById(this.mapName)
     const options = {
       zoom: 11,
@@ -26,7 +25,6 @@ export default {
     });
 
     let placeMarker= (map, location) => {
-      console.log(this.$store.state.newPropMarker,'ini marker')
       if (this.$store.state.newPropMarker) {
         this.$store.state.newPropMarker.setPosition(location);
       } else {

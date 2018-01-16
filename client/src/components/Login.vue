@@ -50,8 +50,7 @@ export default {
           ],
         password: null,
         passwordRules: [
-          (v) => !!v || 'Password is required',
-          // (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+          (v) => !!v || 'Password is required'
         ],
         failMessage: null,
       }
@@ -59,7 +58,6 @@ export default {
     methods: {
       login () {
         if (this.valid) {
-          console.log('Loggin in', this.email, this.password)
           this.$axios({
             method: 'post',
             url: `/users/login`,

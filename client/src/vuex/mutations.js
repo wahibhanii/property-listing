@@ -4,7 +4,6 @@ const baseURL = 'http://35.185.113.211'
 const mutations = {
  
   setLoginStatus(){
-    console.log('login status')
     if (localStorage.token !== undefined){
       this.state.isLoggedIn = true
     } else {
@@ -20,9 +19,7 @@ const mutations = {
   },
 
   getAllProps () {
-    console.log('getting all props')
     if (this.state.isSearch) {
-      console.log('with search', this.state.searchField)
       axios({
         method: 'get',
         url: `${baseURL}/props/search?field=${this.state.searchField}`,
@@ -35,14 +32,12 @@ const mutations = {
         console.log(err)
       })
     } else {
-      console.log('no search')
       axios({
         method: 'get',
         url: `${baseURL}/props`,
         headers: {token: localStorage.token}
       })
       .then(response => {
-        console.log('get data ok')
         this.state.allProps = response.data
       })
       .catch(err => {

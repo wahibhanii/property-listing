@@ -14,10 +14,10 @@
                   <v-text-field label="Email" required v-model="email" :rules="emailRules"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field label="Name" required v-model="userName"></v-text-field>
+                  <v-text-field label="Name" required v-model="userName" :rules="nameRules"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field label="Phone Number" required v-model="phone"></v-text-field>
+                  <v-text-field label="Phone Number" required v-model="phone" :rules="phoneRules"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field label="Address" v-model="address"></v-text-field>
@@ -55,13 +55,23 @@ export default {
       return {
         valid: false,
         userName: null,
+        nameRules: [
+          (v) => !!v || 'Name is required',
+          // (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+        ],
         phone: null,
+        phoneRules: [
+          (v) => !!v || 'Phone number is required',
+          // (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+        ],
         address: null,
         email: null,
         emailRules: [
           (v) => !!v || 'E-mail is required',
-          // (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-        ],
+          /* eslint-disable */
+          (v) => /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(v) || 'E-mail must be valid'
+          /* eslint-enable */
+          ],
         password: null,
         passwordConf: null,
         passwordRules: [

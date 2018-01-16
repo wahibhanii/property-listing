@@ -9,15 +9,14 @@
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
-            <v-layout wrap>
-              
+            <v-form v-model="valid">
               <v-flex xs12>
-                <v-text-field label="Email" required v-model="email"></v-text-field>
+                <v-text-field label="Email" required v-model="email" :rules="emailRules"></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field label="Password" type="password" required v-model="password"></v-text-field>
+                <v-text-field label="Password" type="password" required v-model="password" :rules="passwordRules"></v-text-field>
               </v-flex>
-            </v-layout>
+            </v-form>
           </v-container>
           <small>*indicates required field</small>
           <v-layout row justify-center v-if="failMessage">
@@ -45,9 +44,10 @@ export default {
         valid: false,
         email: null,
         emailRules: [
-          (v) => !!v || 'E-mail is required',
-          // (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-        ],
+          /* eslint-disable */
+          (v) => /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(v) || 'E-mail must be valid'
+          /* eslint-enable */
+          ],
         password: null,
         passwordRules: [
           (v) => !!v || 'Password is required',
@@ -58,35 +58,39 @@ export default {
     },
     methods: {
       login () {
-        console.log('Loggin in', this.email, this.password)
-        this.$axios({
-          method: 'post',
-          url: `/users/login`,
-          data: {
-            email: this.email,
-            password: this.password
-          }
-        })
-        .then(loginResponse => {
-          if (loginResponse.status === 200) {
-            this.email = null
-            this.password = null
-            this.failMessage = null
-            localStorage.setItem('token', loginResponse.data.token)
-            this.$store.state.isLoggedIn = true
-            this.$store.state.loginDialog = false 
-          } else if (loginResponse.status === 204) {
-            this.failMessage = 'User not Found'
-            this.email = null
-            this.password = null
-          } else if (loginResponse.status === 202) {
-            this.failMessage = 'Wrong Password'
-            this.password = null
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+        if (this.valid) {
+          console.log('Loggin in', this.email, this.password)
+          this.$axios({
+            method: 'post',
+            url: `/users/login`,
+            data: {
+              email: this.email,
+              password: this.password
+            }
+          })
+          .then(loginResponse => {
+            if (loginResponse.status === 200) {
+              this.email = null
+              this.password = null
+              this.failMessage = null
+              localStorage.setItem('token', loginResponse.data.token)
+              this.$store.state.isLoggedIn = true
+              this.$store.state.loginDialog = false 
+            } else if (loginResponse.status === 204) {
+              this.failMessage = 'User not Found'
+              this.email = null
+              this.password = null
+            } else if (loginResponse.status === 202) {
+              this.failMessage = 'Wrong Password'
+              this.password = null
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        } else {
+          this.failMessage = 'Validation error'
+        }
       },
       closeDialog (){
         this.$store.state.loginDialog = false
